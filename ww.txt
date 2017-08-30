@@ -1,0 +1,54 @@
+1.#首先安装lnmp
+wget -c http://soft.vpser.net/lnmp/lnmp1.4.tar.gz && tar zxf lnmp1.4.tar.gz && cd lnmp1.4 && ./install.sh lnmp
+
+2.#安装python3并设置兼容性
+yum install openssl-devel bzip2-devel expat-devel gdbm-devel readline-devel sqlite-devel
+yum install gcc
+wget "https://www.python.org/ftp/python/3.5.0/Python-3.5.0.tgz"
+tar -zxvf Python-3.5.0.tgz
+cd Python-3.5.0
+./configure --prefix=/usr/local
+make
+make install
+cd /usr/bin
+mv  python python.backup
+ln -s /usr/local/bin/python3.5 /usr/bin/python
+ln -s /usr/local/bin/python3.5 /usr/bin/python3
+cd /usr/bin
+
+3.下面这些，是用来设置yum兼容性的，照做
+ls yum*
+找到yum yum-config-manager yum-debug-restore yum-groups-manager
+yum-builddep yum-debug-dump yumdownloader
+更改以上文件的头为
+!/usr/bin/python 改为 #!/usr/bin/python2
+修改gnome-tweak-tool配置文件
+vi /usr/bin/gnome-tweak-tool
+!/usr/bin/python 改为 #!/usr/bin/python2
+修改urlgrabber配置文件
+vi /usr/libexec/urlgrabber-ext-down
+!/usr/bin/python 改为 #!/usr/bin/python2
+
+4.下面下载前辈的基础
+cd /home
+mkdir wl
+cd wl
+yum install zip
+yum install unzip
+wget https://github.com/kehao95/thu_learn/archive/master.zip
+unzip master.zip
+pip3 install requests
+pip3 install BeautifulSoup4
+pip3 install PyMySQL
+cd thu_learn-master
+
+5.下面解决数据库不能存储中文的问题：
+修改/etc/my.cnf
+#参考http://blog.csdn.net/panjican/article/details/49590805，不要照搬。
+之后lnmp restart
+
+6.建立数据库，phpmyamdin导入
+https://github.com/fanyuanqi/THU_NOTICE    
+中的system.sql
+
+7.把我的脚本中的信息，改成你自己的信息。完工。
